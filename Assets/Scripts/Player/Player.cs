@@ -13,7 +13,7 @@ namespace BoarBand.PlayerObject
         {
             transform.SetPositionAndRotation(pos, rot);
 
-            _playerMovement.Initialize(joystick, this);
+            _playerMovement.Initialize(joystick, this, Parameters.MoveSpeed);
         }
     }
 }
