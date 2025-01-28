@@ -8,7 +8,6 @@ namespace BoarBand.Spawners
     {
         public static PlayerSpawner Instance { get; private set; }
 
-        [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Player _player;
 
@@ -23,14 +22,12 @@ namespace BoarBand.Spawners
             _joystick = joystick;
 
             CurrentPlayer = Spawn();
-
-            _cinemachineVirtualCamera.Follow = CurrentPlayer.transform;
         }
 
         public override Player Spawn()
         {
             Player player = Instantiate(_player);
-            player.Initialize(_spawnPoint.position, Quaternion.Euler(0f, 90f, 0f), _joystick);
+            player.Initialize(_spawnPoint.position, Quaternion.Euler(0f, 0f, 0f), _joystick);
 
             CurrentPlayer = player;
 

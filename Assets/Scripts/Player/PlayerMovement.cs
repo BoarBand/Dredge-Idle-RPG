@@ -1,38 +1,42 @@
 using UnityEngine;
 using BoarBand.Actions;
-using BoarBand.ScriptableObjects.PlayerParams;
-using BoarBand.Spawners;
 
 namespace BoarBand.PlayerObject
 {
-    [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
+    [RequireComponent(typeof(Rigidbody), typeof(BoxCollider), typeof(Player))]
     public class PlayerMovement : MonoBehaviour
     {
-        private Rigidbody _rigidbody;
         private Joystick _joystick;
         private Player _player;
 
-        private readonly MoveActions _movementAction = new MoveActions();
+        private readonly MoveActions MoveActions = new MoveActions();
+        private readonly float RotateSpeed = 15f;
 
         public void Initialize(Joystick joystick, Player player)
         {
+            if (joystick == null || player == null)
+                return;
+
             _joystick = joystick;
             _player = player;
         }
 
-        private void Start()
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
-
         private void FixedUpdate()
         {
-            Vector3 moveDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical).normalized;
+            if (_joystick == null)
+                return;
 
-            _movementAction.FixedMove(transform, moveDirection, _player.Parameters.MoveSpeed);
+            Vector3 moveDiraction = new Vector3(_joystick.Horizontal, 0f, _joystick.Vertical);
 
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation * Quaternion.Euler(0, 90, 0), Time.deltaTime * 10f); 
+            MoveActions.FixedMove(transform, moveDiraction, _player.Parameters.MoveSpeed);
+
+            if (Vector3.Angle(Vector3.forward, moveDiraction) > 1f || Vector3.Angle(Vector3.forward, moveDiraction) == 0)
+            {
+                Vector3 direct = Vector3.RotateTowards(transform.forward, moveDiraction, 1f, 0.0f);
+                Quaternion rotateAngles = Quaternion.LookRotation(direct);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateAngles, RotateSpeed);
+
+            }
         }
     }
 }
