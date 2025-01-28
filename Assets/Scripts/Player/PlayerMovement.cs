@@ -12,13 +12,12 @@ namespace BoarBand.PlayerObject
         private Joystick _joystick;
         private Player _player;
 
-        public float MovementSpeed { get; set; }
+        private readonly MoveActions _movementAction = new MoveActions();
 
-        public void Initialize(Joystick joystick, Player player, float speed)
+        public void Initialize(Joystick joystick, Player player)
         {
             _joystick = joystick;
             _player = player;
-            MovementSpeed = speed;
         }
 
         private void Start()
@@ -30,13 +29,10 @@ namespace BoarBand.PlayerObject
         {
             Vector3 moveDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical).normalized;
 
-            _rigidbody.velocity = moveDirection * MovementSpeed;
+            _movementAction.FixedMove(transform, moveDirection, _player.Parameters.MoveSpeed);
 
-            if (moveDirection.magnitude > 0.1f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation * Quaternion.Euler(0, 90, 0), Time.deltaTime * 10f); 
-            }
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation * Quaternion.Euler(0, 90, 0), Time.deltaTime * 10f); 
         }
     }
 }
