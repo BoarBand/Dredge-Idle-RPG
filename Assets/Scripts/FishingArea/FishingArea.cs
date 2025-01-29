@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using BoarBand.Fishes;
 using System.Collections.Generic;
 using BoarBand.Interfaces;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-namespace BoarBand.FishingAreas
+namespace BoarBand.Fishing
 {
     public class FishingArea : MonoBehaviour, ISpawnable<Fish>
     {
@@ -11,24 +14,31 @@ namespace BoarBand.FishingAreas
         [SerializeField] private Transform _borderPoint2;
         [SerializeField] private Transform _fishSpawnPoint;
 
+        [SerializeField] private Canvas _buttonCanvas;
+        [SerializeField] private Button _fishingButton;
+
         [SerializeField] private Fish[] _availableFishes;
 
         private Fish _selectedFish;
         private uint _fishesAmount;
 
+        private event Action ClickedFishingButton;
+
         private List<Fish> _spawnedFishes = new List<Fish>();
+
         private readonly uint MaxFishAmount = 10;
         private readonly uint MinFishAmount = 3;
 
-        private void OnEnable()
+        public void Initialize(Vector3 pos, Quaternion rot, Action clickedFishingButton)
         {
-            Initialize();
-        }
+            transform.SetPositionAndRotation(pos, rot);
 
-        public void Initialize()
-        {
+            ClickedFishingButton = clickedFishingButton;
+
             _selectedFish = _availableFishes[Random.Range(0, _availableFishes.Length)];
             _fishesAmount = (uint)Random.Range(MinFishAmount, MaxFishAmount);
+
+            _fishingButton.onClick.AddListener(() => ClickedFishingButton.Invoke());
 
             for(int i = 0; i < _fishesAmount; i++)
             {
@@ -43,6 +53,28 @@ namespace BoarBand.FishingAreas
             fish.Initialize(_fishSpawnPoint.position, Quaternion.identity, _borderPoint1, _borderPoint2);
 
             return fish;
+        }
+
+        public void Disactivate()
+        {
+            ClickedFishingButton = null;
+            _fishingButton.onClick.RemoveAllListeners();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.TryGetComponent(out IResponsable responsable))
+            {
+                _buttonCanvas.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.TryGetComponent(out IResponsable responsable))
+            {
+                _buttonCanvas.gameObject.SetActive(false);
+            }
         }
     }
 }

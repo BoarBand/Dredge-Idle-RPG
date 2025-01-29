@@ -11,6 +11,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
 
     public event Action Dragged;
+    public event Action StopDragged;
     public event Action PointerDown;
     public event Action PointerUp;
 

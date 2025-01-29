@@ -1,9 +1,10 @@
 using UnityEngine;
 using BoarBand.ScriptableObjects.PlayerParams;
+using BoarBand.Interfaces;
 
 namespace BoarBand.PlayerObject
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IResponsable
     {
         [SerializeField] private PlayerMovement _playerMovement;
 
