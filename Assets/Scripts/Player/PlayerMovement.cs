@@ -26,16 +26,15 @@ namespace BoarBand.PlayerObject
             if (_joystick == null)
                 return;
 
-            Vector3 moveDiraction = new Vector3(_joystick.Horizontal, 0f, _joystick.Vertical);
+            Vector3 moveDirection = new Vector3(_joystick.Horizontal, 0f, _joystick.Vertical);
 
-            MoveActions.FixedMove(transform, moveDiraction, _player.Parameters.MoveSpeed);
+            MoveActions.FixedMove(transform, moveDirection, _player.Parameters.MoveSpeed);
 
-            if (Vector3.Angle(Vector3.forward, moveDiraction) > 1f || Vector3.Angle(Vector3.forward, moveDiraction) == 0)
+            if (Vector3.Angle(Vector3.forward, moveDirection) > 1f || Vector3.Angle(Vector3.forward, moveDirection) == 0)
             {
-                Vector3 direct = Vector3.RotateTowards(transform.forward, moveDiraction, 1f, 0.0f);
+                Vector3 direct = Vector3.RotateTowards(transform.forward, moveDirection, 1f, 0.0f);
                 Quaternion rotateAngles = Quaternion.LookRotation(direct);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateAngles, RotateSpeed);
-
             }
         }
     }
