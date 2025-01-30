@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BoarBand.Interfaces;
 using BoarBand.Fishing;
+using BoarBand.Animations;
 
 namespace BoarBand.Spawners
 {
@@ -30,12 +31,12 @@ namespace BoarBand.Spawners
         {
             if(_currentFishingWindow != null)
             {
-                _currentFishingWindow.Initialize();
+                _currentFishingWindow.Initialize(_fishingArea);//
                 return;
             }
 
             _currentFishingWindow = Instantiate(_fishingWindow);
-            _currentFishingWindow.Initialize();
+            _currentFishingWindow.Initialize(_fishingArea);//
         }
     }
 }
