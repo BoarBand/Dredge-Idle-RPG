@@ -9526,7 +9526,7 @@ GameObject:
   - component: {fileID: 19826648}
   - component: {fileID: 19918044}
   m_Layer: 0
-  m_Name: SoapBubbleEmitter
+  m_Name: MagicAuraBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
