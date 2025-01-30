@@ -6,7 +6,7 @@ using BoarBand.Animations;
 
 namespace BoarBand.Spawners
 {
-    public class FishAreaSpawner : MonoBehaviour, ISpawnable<FishingArea>
+    public sealed class FishAreaSpawner : MonoBehaviour, ISpawnable<FishingArea>
     {
         [SerializeField] private FishingWindow _fishingWindow;
         [SerializeField] private FishingArea _fishingArea;
@@ -31,12 +31,12 @@ namespace BoarBand.Spawners
         {
             if(_currentFishingWindow != null)
             {
-                _currentFishingWindow.Initialize(_fishingArea);//
+                _currentFishingWindow.Initialize();
                 return;
             }
 
             _currentFishingWindow = Instantiate(_fishingWindow);
-            _currentFishingWindow.Initialize(_fishingArea);//
+            _currentFishingWindow.Initialize();
         }
     }
 }

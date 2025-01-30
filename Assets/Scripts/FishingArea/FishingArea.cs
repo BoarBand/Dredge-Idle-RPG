@@ -22,7 +22,7 @@ namespace BoarBand.Fishing
         private Fish _selectedFish;
         private uint _fishesAmount;
 
-        public event Action ClickedFishingButton;//
+        private event Action ClickedFishingButton;
 
         private List<Fish> _spawnedFishes = new List<Fish>();
 
