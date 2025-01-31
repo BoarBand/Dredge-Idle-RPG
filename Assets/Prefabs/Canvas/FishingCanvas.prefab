@@ -523,6 +523,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b1bd7b542903a4e9ff6c3d8bbb80c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8280376147209457967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1091,6 +1097,7 @@ MonoBehaviour:
   _spawnPointAround: {fileID: 3560063641867479575}
   _container: {fileID: 4244907137600259312}
   _hookButton: {fileID: 8280376147209457967}
+  _pointerAnimation: {fileID: 4636763610981384518}
 --- !u!95 &5023548471840188876
 Animator:
   serializedVersion: 5
