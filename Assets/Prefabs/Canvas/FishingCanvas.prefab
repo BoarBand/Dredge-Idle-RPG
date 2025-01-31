@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 353179463372038893}
   - component: {fileID: 6972316405369271147}
+  - component: {fileID: 7991482961067495210}
   m_Layer: 5
   m_Name: FishingRodSlider
   m_TagString: Untagged
@@ -90,6 +91,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7991482961067495210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010167255532096268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60275c65d61163742ab2f1f85e9f25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slider: {fileID: 6972316405369271147}
 --- !u!1 &1091227687138027820
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,12 +537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b1bd7b542903a4e9ff6c3d8bbb80c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnPointerDownEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPointerUpEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8280376147209457967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1091,13 +1099,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6839331f78ade78448247705fbf765f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fishingRodSlider: {fileID: 6972316405369271147}
+  _fishingRodSlider: {fileID: 7991482961067495210}
   _fishingArounds:
   - {fileID: 1085551685799004513, guid: 1a69b86ba4190ec4884459660f7a6e59, type: 3}
   _spawnPointAround: {fileID: 3560063641867479575}
   _container: {fileID: 4244907137600259312}
   _hookButton: {fileID: 8280376147209457967}
-  _pointerAnimation: {fileID: 4636763610981384518}
 --- !u!95 &5023548471840188876
 Animator:
   serializedVersion: 5

@@ -278,8 +278,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pointer: {fileID: 789343326421105246}
-  _pivotPointer: {fileID: 5217926991017821611}
-  _currentAmountFishingRodSlider: 0
+  _greenAreaAngleLimitsString:
+  - 320 40
+  - 140 220
 --- !u!1 &8983316757647219668
 GameObject:
   m_ObjectHideFlags: 0

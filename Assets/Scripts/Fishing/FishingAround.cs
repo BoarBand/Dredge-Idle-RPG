@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -7,33 +8,52 @@ namespace BoarBand.Fishing
     public class FishingAround : MonoBehaviour
     {
         [SerializeField] private Transform _pointer;
-        [SerializeField] private Transform _pivotPointer;
 
-        [SerializeField] private float _currentAmountFishingRodSlider;
+        [SerializeField] private List<string> _greenAreaAngleLimitsString = new List<string>();
+
+        private List<int[]> _greenAreaAngleLimits = new List<int[]>();
 
         private Coroutine _rotatePointerCoroutine;
 
-        private readonly float RotateSpeed = 100f;
+        private readonly float RotateSpeed = 50f; // 100f
 
-        private readonly float FillAmountFishingRodSlider = 1f;
-
-        public float MaxAmount => FillAmountFishingRodSlider;
-        public float CurrentAmount => _currentAmountFishingRodSlider;
-
-        public event Action<float> FillAmountValue;
-
-        public void Initialize(Vector3 pos, Transform parent)
+        public void Initialize(Vector3 pos, Transform parent, out Func<bool> checkAngle)
         {
+            FromStringToIntAngles(_greenAreaAngleLimitsString, out _greenAreaAngleLimits);
+
             transform.SetParent(parent);
             transform.localPosition = pos;
 
             StartRotation();
+
+            checkAngle = CheckIfPointerInGreenArea;
         }
 
-        private void Start()
+        private bool CheckIfPointerInGreenArea()
         {
-            _currentAmountFishingRodSlider = FillAmountFishingRodSlider;
-            FillAmountValue?.Invoke(_currentAmountFishingRodSlider);
+            foreach (int[] angleLimit in _greenAreaAngleLimits)
+            {
+                if (Mathf.Cos(angleLimit[0]) < Mathf.Cos(_pointer.localEulerAngles.z) && Mathf.Cos(angleLimit[1]) > Mathf.Cos(_pointer.localEulerAngles.z))
+                    return true;
+            }
+            return false;
+        }
+
+        private void FromStringToIntAngles(List<string> angleLimitsString, out List<int[]> angleLimits)
+        {
+            angleLimits = new List<int[]>();
+
+            foreach (string str in angleLimitsString)
+            {
+                int[] angles = new int[2];
+                string[] anglesString;
+                _ = new string[2];
+                anglesString = str.Split(" ");
+                angles[0] = Convert.ToInt32(anglesString[0]);
+                angles[1] = Convert.ToInt32(anglesString[1]);
+
+                angleLimits.Add(angles);
+            }
         }
 
         private void StartRotation()
@@ -54,42 +74,14 @@ namespace BoarBand.Fishing
 
         private IEnumerator RotatePointer()
         {
-            WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
+            WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
             while (true)
             {
-                yield return _waitForFixedUpdate;
+                yield return waitForFixedUpdate;
 
                 _pointer.Rotate(-Vector3.forward * RotateSpeed * Time.fixedDeltaTime);
             }
-        }
-
-        private float FindAngleBetweenObjects(Transform obj1, Transform obj2)
-        {
-            Vector2 direction = obj2.position - obj1.position;
-            float angle = Vector2.SignedAngle(Vector2.right, direction);
-
-            return angle;
-        }
-
-        public void CheckAngle()
-        {
-            float angle = FindAngleBetweenObjects(_pointer, _pivotPointer);
-
-            if (angle >= -30f && angle < 30f)
-            {
-                DecreaseSlider();
-            }
-        }
-
-        private void DecreaseSlider()
-        {
-            _currentAmountFishingRodSlider -= 0.1f; 
-
-            if (_currentAmountFishingRodSlider < 0)
-                _currentAmountFishingRodSlider = 0;
-
-            FillAmountValue?.Invoke(_currentAmountFishingRodSlider);
         }
 
         private void OnDisable()
